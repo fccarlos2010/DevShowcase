@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevShowcase</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f4f4f4;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .perfil {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .projeto {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    a {
+      color: #0066cc;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>DevShowcase</h1>
+
+  <div id="perfil" class="perfil">
+    Carregando perfil...
+  </div>
+
+  <div id="projetos">
+    Carregando projetos...
+  </div>
+
+  <script>
+    async function carregarDados() {
+
+      try {
+        // Buscar perfil
+        const perfilResposta = await fetch('/api/profiles');
+        const perfis = await perfilResposta.json();
+
+        if (perfis.length > 0) {
+          const perfil = perfis[0];
+
+          document.getElementById('perfil').innerHTML = `
+            <h2>${perfil.name}</h2>
+            <p>${perfil.bio}</p>
+            <p><strong>E-mail:</strong> ${perfil.email}</p>
+          `;
+        }
+
+        // Buscar projetos
+        const projetosResposta = await fetch('/api/projects');
+        const projetos = await projetosResposta.json();
+
+        document.getElementById('projetos').innerHTML = '<h2>Projetos</h2>';
+
+        projetos.forEach(projeto => {
+
+          document.getElementById('projetos').innerHTML += `
+            <div class="projeto">
+              <h3>${projeto.title}</h3>
+              <p>${projeto.description}</p>
+              <a href="${projeto.url}" target="_blank">
+                Ver projeto
+              </a>
+            </div>
+          `;
+
+        });
+
+      } catch (erro) {
+
+        console.error(erro);
+
+        document.getElementById('perfil').innerHTML =
+          '<p>Erro ao carregar os dados.</p>';
+      }
+    }
+
+    carregarDados();
+  </script>
+
+</body>
+</html>
