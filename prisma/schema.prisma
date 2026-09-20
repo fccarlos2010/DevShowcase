@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -16,14 +16,18 @@ model Profile {
 }
 
 model Project {
-  id           Int          @id @default(autoincrement())
-  title        String
-  description  String
-  url          String
-  profileId    Int
-  profile      Profile      @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  technologies Technology[]
-  feedbacks    Feedback[]
+  id            Int          @id @default(autoincrement())
+  title         String
+  description   String
+  url           String
+  profileId     Int
+  averageRating Float        @default(0)
+  
+
+  profile       Profile      @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  technologies  Technology[]
+  feedbacks     Feedback[]
+  upvotes      Int          @default(0)
 }
 
 model Technology {

@@ -19,12 +19,11 @@ async function createProfile(req, res) {
     });
   }
 }
-
 async function getProfiles(req, res) {
   try {
     const profiles = await prisma.profile.findMany();
 
-    res.json(profiles);
+    res.status(200).json(profiles);
   } catch (error) {
     res.status(500).json({
       error: 'Erro ao buscar perfis'
