@@ -12,7 +12,7 @@ const options = {
 
     servers: [
       {
-        url: 'http://localhost:3000'
+       url: 'https://devshowcase-c94b.onrender.com'
       }
     ]
   },
